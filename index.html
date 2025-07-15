@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DNMR4PP143"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #0056b3;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .input-section {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    select {
+      padding: 10px;
+      width: 60%;
+      max-width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-right: 10px;
+      background-color: white;
+      cursor: pointer;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #loading {
+      text-align: center;
+      margin-top: 20px;
+      color: #555;
+      display: none; /* Hidden by default */
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-family: "Times New Roman", serif; /* Example font from previous request */
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+      font-family: "Times New Roman", serif; /* Example font from previous request */
+    }
+    th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .print-section {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .print-buttons-section {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .print-image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+
+    /* Style for the full schedule table */
+    #fullScheduleDisplay {
+      margin-top: 100px;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+    #fullScheduleDisplay h2 {
+      text-align: center;
+      color: #0056b3;
+      margin-bottom: 15px;
+    }
+
+    #fullScheduleDisplay table {
+      width: 100%; /* Current overall table width, adjust as needed */
+      margin: 20px auto 0 auto;
+      table-layout: fixed; /* Distribute column widths evenly */
+    }
+
+    /* Set font size for table headers and cells within the full schedule display */
+    #fullScheduleDisplay th,
+    #fullScheduleDisplay td {
+      font-size: 0.5em; /* Adjust this value as needed for text size */
+      overflow: hidden; /* Added to handle potential overflow with fixed width */
+      text-overflow: ellipsis; /* Added for better truncation visually */
+      white-space: nowrap; /* Keep data cells on one line */
+    }
+
+    /* Specific width for the first column (Column A - "Ngày") */
+    #fullScheduleDisplay th:nth-child(1),
+    #fullScheduleDisplay td:nth-child(1) {
+      width: 45px; /* Adjust this fixed width for the date column as needed */
+      white-space: nowrap; /* Ensure date doesn't wrap */
+    }
+    
+    /* Allow word wrapping for ALL headers in the full schedule display */
+    #fullScheduleDisplay th {
+      white-space: normal; /* Allow text to wrap */
+      word-wrap: break-word; /* Break long words if necessary (older browsers) */
+      font-size: 0.55em; /* Adjust this value as needed for Header text size */
+      overflow-wrap: break-word; /* Break long words if necessary (modern browsers) */
+      vertical-align: top; /* Align wrapped text to the top of the cell */
+    }
+
+    /* NEW STYLE: Member Details Section as a Table */
+    #memberDetails table {
+        width: 100%;
+        /* ... other styles ... */
+    }
+    #memberDetails th { /* For the labels like "Tham gia/Renew:" */
+        /* ... other styles ... */
+        width: 170px; /* Configurable width for the header (label) column */
+        white-space: nowrap; /* Prevent label text from wrapping */
+    }
+    #memberDetails td { /* For the values like "01/06/2025" */
+        width: auto; /* Allows the cell to take remaining available width */
+        min-width: 100px; /* Ensures a minimum width for the value column */
+        /* white-space: nowrap; // Can uncomment if values should never wrap */
+    }
+    
+    /* --- PRINT STYLES FOR SINGLE PAGE --- */
+    @media print {
+      body {
+        -webkit-print-color-adjust: exact;
+        font-family: "Times New Roman", serif;
+        font-size: 10pt; /* Smaller font size for print */
+        margin: 0; /* Remove body margins for print */
+        padding: 0; /* Remove body padding for print */
+      }
+      h1 {
+        font-size: 14pt; /* Smaller title font for print */
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .print-image {
+        max-width: 90%; /* Slightly smaller image for print */
+        margin-bottom: 10px; /* Less margin below image */
+      }
+      table {
+        font-family: "Times New Roman", serif;
+        width: 100%; /* Ensure table takes full width */
+        margin-top: 10px; /* Less margin above table for print */
+      }
+      th, td {
+        font-family: "Times New Roman", serif;
+        padding: 4px; /* Reduced padding for cells in print */
+      }
+      /* If the table still doesn't fit on one page after the above adjustments,
+         you can try uncommenting and adjusting the 'transform: scale' below.
+         A value like 0.90 (90%) or 0.85 (85%) might work. */
+      /*
+      .container {
+        transform: scale(0.9);
+        transform-origin: top left;
+        width: calc(100% / 0.9);
+        height: calc(100% / 0.9);
+        overflow: hidden;
+      }
+      */
+    }
+
+      /* New CSS for the Home link container */
+      .home-link-container {
+        text-align: center; /* Center the link */
+        margin-bottom: 15px; /* Space below the link */
+      }
+      .home-link {
+        display: inline-block; /* Allows padding and margin */
+        padding: 8px 15px;
+        background-color: #007bff; /* Blue background */
+        color: white; /* White text */
+        text-decoration: none; /* No underline */
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        font-weight: bold;
+      }
+      .home-link:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+      }
+      /* End New CSS */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Tìm Lịch Phục Vụ</h1>
+    <div class="input-section">
+      <select id="memberNameDropdown" onchange="searchSchedule()">
+        <option value="">-- Chọn tên thành viên --</option>
+      </select>
+    </div>
+    <div id="loading">Đang tải lịch...</div>
+  
+    <div id="memberDetails">
+        <p></p>
+    </div>
+
+    <div id="results">
+      </div>
+
+    <div class="print-section">
+      <button onclick="printTable()">In Bảng Kết Quả</button>
+    </div>
+    <br>
+    <div class="home-link-container">
+      <a href="https://ttvtt-tustin.voichua.com" class="home-link" target="_blank" rel="noopener noreferrer">
+      Trang Chủ
+      </a>
+    </div>
+
+    <div id="fullScheduleDisplay">
+        <h2>Toàn Bộ Lịch Trình</h2>
+        <p>Đang tải toàn bộ lịch trình...</p>
+    </div>
+    <div class="print-buttons-section">
+      <button onclick="printFullSchedule()">In Toàn Bộ Lịch Trình & Ghi Chú</button>
+    </div>
+    <br>
+    <div class="home-link-container">
+      <a href="https://ttvtt-tustin.voichua.com" class="home-link" target="_blank" rel="noopener noreferrer">
+      Trang Chủ
+      </a>
+    </div>
+  </div>
+  
+  <script>
+    // IMPORTANT: Paste the Web app URL you copied from Google Apps Script here
+    const API_URL = 'https://script.google.com/macros/s/AKfycbze1WBsLldahSsrQptMHqYQ23a7Li5ls9tjl4Twa2QhJ7SitosFy1E1t40yeIYvBoqpTg/exec';
+
+    // --- NEW FUNCTIONS USING FETCH API ---
+
+    function loadNamesIntoDropdown() {
+      const dropdown = document.getElementById('memberNameDropdown');
+      const loadingDiv = document.getElementById('loading');
+      loadingDiv.style.display = 'block';
+
+      fetch(`${API_URL}?action=getAllNames`)
+        .then(response => response.json())
+        .then(names => {
+          loadingDiv.style.display = 'none';
+          names.forEach(name => {
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = name;
+            dropdown.appendChild(option);
+          });
+          loadFullSchedule(); // Load the full schedule after names are loaded
+        })
+        .catch(error => {
+          loadingDiv.style.display = 'none';
+          dropdown.innerHTML = '<option value="">Lỗi tải tên</option>';
+          console.error('Error loading names:', error);
+          loadFullSchedule(); // Still attempt to load the full schedule on error
+        });
+    }
+
+    window.onload = loadNamesIntoDropdown;
+
+    function searchSchedule() {
+      const memberName = document.getElementById('memberNameDropdown').value;
+      const resultsDiv = document.getElementById('results');
+      const memberDetailsDiv = document.getElementById('memberDetails');
+      const loadingDiv = document.getElementById('loading');
+
+      if (!memberName) {
+        resultsDiv.innerHTML = '<p>Vui lòng chọn một tên từ danh sách.</p>';
+        return;
+      }
+
+      resultsDiv.innerHTML = '';
+      memberDetailsDiv.innerHTML = '<p>Thông tin về thành viên.</p>';
+      loadingDiv.style.display = 'block';
+
+      // Note: encodeURIComponent is important for names with special characters
+      fetch(`${API_URL}?action=getSchedule&name=${encodeURIComponent(memberName)}`)
+        .then(response => response.json())
+        .then(data => {
+          loadingDiv.style.display = 'none';
+          if (data && data.length > 1) {
+            let tableHtml = '<table><thead><tr>';
+            data[0].forEach(header => { tableHtml += `<th>${header}</th>`; });
+            tableHtml += '</tr></thead><tbody>';
+            for (let i = 1; i < data.length; i++) {
+              tableHtml += '<tr>';
+              data[i].forEach(cell => { tableHtml += `<td>${cell}</td>`; });
+              tableHtml += '</tr>';
+            }
+            tableHtml += '</tbody></table>';
+            resultsDiv.innerHTML = tableHtml;
+          } else {
+            resultsDiv.innerHTML = '<p>Không tìm thấy lịch trình nào.</p>';
+          }
+          loadMemberContactDetails(memberName);
+        })
+        .catch(error => {
+          loadingDiv.style.display = 'none';
+          resultsDiv.innerHTML = `<p style="color: red;">Lỗi: ${error.message}</p>`;
+          console.error('Error:', error);
+        });
+    }
+
+    function loadMemberContactDetails(memberName) {
+      const memberDetailsDiv = document.getElementById('memberDetails');
+      memberDetailsDiv.innerHTML = '<h3>Đang tải thông tin thành viên...</h3>';
+
+      fetch(`${API_URL}?action=getMemberDetails&name=${encodeURIComponent(memberName)}`)
+        .then(response => response.json())
+        .then(data => {
+          if (Array.isArray(data) && data.length === 3) {
+            let detailsHtml = '<h3>Thông tin chi tiết:</h3><ul>';
+            detailsHtml += `<li><strong>Tham Gia:</strong> ${data[0]}</li>`;
+            detailsHtml += `<li><strong>Mãn Nhiệm Kỳ:</strong> ${data[1]}</li>`;
+            detailsHtml += `<li><strong>Ghi Chú:</strong> ${data[2]}</li>`;
+            detailsHtml += '</ul>';
+            memberDetailsDiv.innerHTML = detailsHtml;
+          } else {
+            // If data is not the expected array, display it as a message
+            memberDetailsDiv.innerHTML = `<p style="color: red;">${data}</p>`;
+          }
+        })
+        .catch(error => {
+          memberDetailsDiv.innerHTML = '<p style="color: red;">Lỗi: Không thể tải thông tin thành viên.</p>';
+          console.error('Error loading member details:', error);
+        });
+    }
+
+    function loadFullSchedule() {
+      const fullScheduleDiv = document.getElementById('fullScheduleDisplay');
+      fullScheduleDiv.innerHTML = '<h2>Toàn Bộ Lịch Trình Phục Vụ Thánh Thể</h2><p>Đang tải toàn bộ lịch trình...</p>';
+
+      fetch(`${API_URL}?action=getFullScheduleData`)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.length > 1) {
+              let tableHtml = '<table><thead><tr>';
+              data[0].forEach(header => { tableHtml += `<th>${header}</th>`; });
+              tableHtml += '</tr></thead><tbody>';
+              for (let i = 1; i < data.length; i++) {
+                tableHtml += '<tr>';
+                data[i].forEach(cell => { tableHtml += `<td>${cell}</td>`; });
+                tableHtml += '</tr>';
+              }
+              tableHtml += '</tbody></table>';
+              fullScheduleDiv.innerHTML = '<h2>Toàn Bộ Lịch Trình Phục Vụ Thánh Thể</h2>' + tableHtml + '<h2>Ghi Chú:</h2><ul><br><li><strong>Lịch Trình được sắp xếp theo Thứ Bảy, Thứ Sáu đầu tháng, các lễ buộc và lễ trọng .</strong></li><br><li><strong>(1) Mình Thánh - [1-6]</strong> - Cần 6 thành viên phục vụ trong thánh lễ cho rước Mình Thánh Chúa.</li><br><li><strong>(2) Máu Thánh - [1-4]</strong> - Cần 4 thành viên phục vụ trong thánh lễ cho rước Máu Thánh Chúa.</li><br><li><strong>(3) Thay Thế (Standby) cho Mình Thánh</strong> - Cần 1 thành viên để thay thế vị trí (1) ở trên, nếu không đủ 6 người.</li><br><li><strong>(4) Thay Thế (Standby) cho Máu Thánh</strong> - Cần 1 thành viên để thay thế vị trí (2) ở trên, nếu không đủ 4 người.</li><br><li><strong>(5) Dự Phòng (Reserve) cho Mình Thánh</strong> - Cần 1 thành viên để thay thế thêm cho vị trí (1) ở trên, nếu đã có người thay thế (3) mà vẫn không đủ 6 người.</li><br><li><strong>(6) Dự Phòng (Reserve) cho Máu Thánh</strong> - Cần 1 thành viên để thay thế thêm cho vị trí (2) ở trên, nếu đã có người thay thế (4) mà vẫn không đủ 4 người.</li><br><li><strong>(7) SUMMER TIME</strong> - Tháng Bảy - Tháng 9: Theo lịch các em Thiếu Nhi nghĩ hè. Chỉ cần một thừa tác viên phục vụ trên lầu,nên chỉ cần 5 thừa tác viên cho rước Mình Thánh Chúa thôi.</li></ul>';
+          } else {
+              fullScheduleDiv.innerHTML = '<h2>Toàn Bộ Lịch Trình Phục Vụ Thánh Thể</h2><p>Không tìm thấy dữ liệu lịch trình đầy đủ.</p>';
+          }
+        })
+        .catch(error => {
+          fullScheduleDiv.innerHTML = `<h2>Toàn Bộ Lịch Trình Phục Vụ Thánh Thể</h2><p style="color: red;">Lỗi tải toàn bộ lịch trình: ${error.message}</p>`;
+          console.error('Error loading full schedule:', error);
+        });
+    }
+
+    // --- YOUR ORIGINAL PRINTING AND GTAG FUNCTIONS (UNCHANGED) ---
+    
+    function printTable() {
+      const tableContent = document.getElementById('results').innerHTML;
+
+      if (!tableContent.trim() || tableContent.includes('Không tìm thấy lịch trình nào.')) {
+        alert('No data to print. Please search for a schedule first.');
+        return;
+      }
+
+      const imageUrl = "https://i.imgur.com/HNhb8yo.png"; // Your image URL
+
+      const printWindow = window.open('', '_blank'); // Opens a new blank tab
+      printWindow.document.write('<html><head><title>Print Schedule Result</title>');
+      
+      printWindow.document.write('<style>');
+      printWindow.document.write('body { font-family: Arial, sans-serif; margin: 20px; }');
+      printWindow.document.write('table { width: 100%; border-collapse: collapse; margin-top: 20px; }');
+      printWindow.document.write('th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }');
+      printWindow.document.write('th { background-color: #f2f2f2; color: #333; }');
+      printWindow.document.write('tr:nth-child(even) { background-color: #f9f9f9; }');
+      printWindow.document.write('.print-image { max-width: 100%; height: auto; display: block; margin: 0 auto 20px auto; }');
+      
+      printWindow.document.write('@media print {');
+      printWindow.document.write('body { -webkit-print-color-adjust: exact; font-family: "Times New Roman", serif; font-size: 10pt; margin: 0; padding: 0; }');
+      printWindow.document.write('h1 { font-size: 14pt; margin-top: 10px; margin-bottom: 10px; }');
+      printWindow.document.write('.print-image { max-width: 90%; margin-bottom: 10px; }'); // Less margin for print
+      printWindow.document.write('table { font-family: "Times New Roman", serif; width: 100%; margin-top: 10px; }');
+      printWindow.document.write('th, td { font-family: "Times New Roman", serif; padding: 4px; }');
+      printWindow.document.write('}');
+      printWindow.document.write('</style>');
+      printWindow.document.write('</head><body>');
+      printWindow.document.write('<h1>Lịch Phục Vụ Kết Quả Tìm Kiếm</h1>'); 
+      printWindow.document.write(`<img id="printHeaderImage" src="${imageUrl}" class="print-image" alt="Header Image">`);
+      printWindow.document.write(tableContent);
+      printWindow.document.write('</body></html>');
+      printWindow.document.close(); 
+
+      const imgElement = printWindow.document.getElementById('printHeaderImage');
+      if (imgElement) {
+          const triggerPrint = () => {
+              printWindow.focus();
+              printWindow.print();
+              setTimeout(function() { printWindow.close(); }, 500); 
+          };
+          if (!imgElement.complete) {
+              imgElement.onload = triggerPrint;
+              imgElement.onerror = () => {
+                  console.error("Failed to load print image. Printing without image.");
+                  triggerPrint(); 
+              };
+          } else {
+              triggerPrint();
+          }
+      } else {
+          printWindow.focus();
+          printWindow.print();
+          setTimeout(function() { printWindow.close(); }, 500);
+      }
+    }
+
+    function printFullSchedule() {
+      const fullScheduleContent = document.getElementById('fullScheduleDisplay').innerHTML;
+
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write('<html><head><title>Toàn Bộ Lịch Trình & Ghi Chú</title>');
+      
+      printWindow.document.write('<style>');
+      printWindow.document.write('body { font-family: Arial, sans-serif; margin: 20px; }');
+      printWindow.document.write('table { width: 100%; border-collapse: collapse; margin-top: 20px; }');
+      printWindow.document.write('th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }');
+      printWindow.document.write('th { background-color: #f2f2f2; color: #333; }');
+      printWindow.document.write('tr:nth-child(even) { background-color: #f9f9f9; }');
+      printWindow.document.write('h2 { text-align: center; color: #000; margin-top: 20px; margin-bottom: 10px; font-size: 12pt; }');
+      printWindow.document.write('ul { list-style: none; padding-left: 0; }');
+      printWindow.document.write('li { margin-bottom: 5px; font-size: 10pt; }');
+      printWindow.document.write('strong { font-weight: bold; }');
+      
+      printWindow.document.write('@media print {');
+      printWindow.document.write('body { -webkit-print-color-adjust: exact; font-family: "Times New Roman", serif; font-size: 10pt; margin: 0; padding: 0; }');
+      printWindow.document.write('h1 { font-size: 14pt; margin-top: 10px; margin-bottom: 10px; }');
+      printWindow.document.write('table { font-family: "Times New Roman", serif; width: 100%; margin-top: 10px; }');
+      printWindow.document.write('th, td { font-family: "Times New Roman", serif; padding: 4px; }');
+      printWindow.document.write('h2 { font-size: 11pt; }');
+      printWindow.document.write('li { font-size: 9pt; }');
+      printWindow.document.write('}');
+      printWindow.document.write('</style>');
+      printWindow.document.write('</head><body>');
+      printWindow.document.write('<h1>Toàn Bộ Lịch Trình Phục Vụ Thánh Thể</h1>'); 
+
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = fullScheduleContent;
+
+      const firstH2 = tempDiv.querySelector('h2');
+      if (firstH2 && firstH2.textContent.includes('Toàn Bộ Lịch Trình Phục Vụ Thánh Thể')) {
+          firstH2.remove();
+      }
+
+      const loadingParagraph = tempDiv.querySelector('p');
+      if (loadingParagraph && loadingParagraph.textContent.includes('Đang tải toàn bộ lịch trình...')) {
+          loadingParagraph.remove();
+      }
+
+      printWindow.document.write(tempDiv.innerHTML);
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+
+      printWindow.focus(); 
+      printWindow.print();
+      setTimeout(() => printWindow.close(), 500);
+    }
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-DNMR4PP143',{ 'debug_mode': true });
+  </script>
+</body>
+</html>
