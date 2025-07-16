@@ -161,8 +161,26 @@
   </div>
   
   <script>
-    // IMPORTANT: Paste the Web app URL you copied from Google Apps Script here
     const API_URL = 'https://script.google.com/macros/s/AKfycbze1WBsLldahSsrQptMHqYQ23a7Li5ls9tjl4Twa2QhJ7SitosFy1E1t40yeIYvBoqpTg/exec';
+
+    /**
+     * Helper function to format date strings into DD-MM-YYYY format.
+     */
+    function formatDate(dateString) {
+      if (!dateString) return '';
+      try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+          return dateString; // Return original if not a valid date
+        }
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+      } catch (error) {
+        return dateString; // Return original on error
+      }
+    }
 
     function loadNamesIntoDropdown() {
       const dropdown = document.getElementById('memberNameDropdown');
@@ -209,7 +227,11 @@
             tableHtml += '</tr></thead><tbody>';
             for (let i = 1; i < data.length; i++) {
               tableHtml += '<tr>';
-              data[i].forEach(cell => { tableHtml += `<td>${cell}</td>`; });
+              // Format the first cell (date) and add the rest
+              tableHtml += `<td>${formatDate(data[i][0])}</td>`;
+              for (let j = 1; j < data[i].length; j++) {
+                  tableHtml += `<td>${data[i][j]}</td>`;
+              }
               tableHtml += '</tr>';
             }
             tableHtml += '</tbody></table>';
@@ -234,8 +256,8 @@
         .then(data => {
           if (Array.isArray(data) && data.length === 3) {
             let detailsHtml = '<h3>Thông tin chi tiết:</h3><ul>';
-            detailsHtml += `<li><strong>Tham Gia:</strong> ${data[0]}</li>`;
-            detailsHtml += `<li><strong>Mãn Nhiệm Kỳ:</strong> ${data[1]}</li>`;
+            detailsHtml += `<li><strong>Tham Gia:</strong> ${formatDate(data[0])}</li>`;
+            detailsHtml += `<li><strong>Mãn Nhiệm Kỳ:</strong> ${formatDate(data[1])}</li>`;
             detailsHtml += `<li><strong>Ghi Chú:</strong> ${data[2]}</li>`;
             detailsHtml += '</ul>';
             memberDetailsDiv.innerHTML = detailsHtml;
@@ -261,12 +283,15 @@
               tableHtml += '</tr></thead><tbody>';
               for (let i = 1; i < data.length; i++) {
                 tableHtml += '<tr>';
-                data[i].forEach(cell => { tableHtml += `<td>${cell}</td>`; });
+                // Format the first cell (date) and add the rest
+                tableHtml += `<td>${formatDate(data[i][0])}</td>`;
+                for (let j = 1; j < data[i].length; j++) {
+                    tableHtml += `<td>${data[i][j]}</td>`;
+                }
                 tableHtml += '</tr>';
               }
               tableHtml += '</tbody></table>';
               
-              // CORRECTED SECTION: Using backticks (`) for the long string
               fullScheduleDiv.innerHTML = `
                 <h2>Toàn Bộ Lịch Trình</h2>
                 ${tableHtml}
@@ -297,22 +322,18 @@
         alert('No data to print. Please search for a schedule first.');
         return;
       }
-
       const printWindow = window.open('', '_blank');
       printWindow.document.write('<html><head><title>Print Schedule Result</title>');
-
       const styles = document.getElementsByTagName('style');
       for (let i = 0; i < styles.length; i++) {
         printWindow.document.head.appendChild(styles[i].cloneNode(true));
       }
-
       printWindow.document.write('</head><body>');
       printWindow.document.write('<h1>Lịch Phục Vụ Kết Quả Tìm Kiếm</h1>');
       printWindow.document.write(`<img src="https://i.imgur.com/HNhb8yo.png" style="max-width:100%;" alt="Header Image">`);
       printWindow.document.write(tableContent);
       printWindow.document.write('</body></html>');
       printWindow.document.close();
-
       printWindow.onload = function() {
         printWindow.focus();
         printWindow.print();
@@ -324,14 +345,11 @@
       const fullScheduleContent = document.getElementById('fullScheduleDisplay').innerHTML;
       const printWindow = window.open('', '_blank');
       printWindow.document.write('<html><head><title>Toàn Bộ Lịch Trình & Ghi Chú</title>');
-
       const styles = document.getElementsByTagName('style');
       for (let i = 0; i < styles.length; i++) {
         printWindow.document.head.appendChild(styles[i].cloneNode(true));
       }
-
       printWindow.document.write('</head><body>');
-      
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = fullScheduleContent;
       if (tempDiv.querySelector('h2')) {
@@ -344,7 +362,6 @@
       printWindow.document.write(tempDiv.innerHTML);
       printWindow.document.write('</body></html>');
       printWindow.document.close();
-      
       printWindow.onload = function() {
         printWindow.focus();
         printWindow.print();
