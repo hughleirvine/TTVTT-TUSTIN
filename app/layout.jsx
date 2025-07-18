@@ -1,3 +1,4 @@
+import Script from 'next/script'; // 1. Import the Script component
 import '../styles/globals.css';
 import { Footer } from '../components/footer';
 import { Header } from '../components/header';
@@ -23,6 +24,20 @@ export default function RootLayout({ children }) {
                         <Footer />
                     </div>
                 </div>
+
+                {/* 2. Add the Google Analytics scripts here */}
+                <Script 
+                  src="https://www.googletagmanager.com/gtag/js?id=G-DNMR4PP143" 
+                  strategy="afterInteractive" 
+                />
+                <Script id="google-analytics" strategy="afterInteractive">
+                  {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', 'G-DNMR4PP143', { 'debug_mode': true });
+                  `}
+                </Script>
             </body>
         </html>
     );

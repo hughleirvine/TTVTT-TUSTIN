@@ -5,10 +5,10 @@ export function Footer() {
         <footer className="pt-16 pb-12 sm:pt-24 sm:pb-16">
             <p className="text-sm">
                 <Link
-                    href="https://docs.netlify.com/frameworks/next-js/overview/"
+                    href="/"
                     className="decoration-dashed text-primary underline-offset-8"
                 >
-                    Next.js on Netlify
+                    BAN THỪA TÁC VIÊN THÁNH THỂ TUSTIN NHIỆM KỲ 2025 - 2027
                 </Link>
             </p>
         </footer>
