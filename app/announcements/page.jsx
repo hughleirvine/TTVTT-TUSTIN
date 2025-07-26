@@ -28,7 +28,7 @@ export default function AnnouncementPage() {
 
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-      <h1>Announcements</h1>
+      <h1>Thông Báo</h1>
       <hr style={{ margin: '20px 0' }} />
       {isLoading ? (
         <p>Loading announcements...</p>
