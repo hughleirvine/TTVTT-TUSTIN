@@ -31,7 +31,7 @@ export default function AnnouncementPage() {
       <h1>Thông Báo</h1>
       <hr style={{ margin: '20px 0' }} />
       {isLoading ? (
-        <p>Loading announcements...</p>
+        <p>Loading thông báo...</p>
       ) : (
         <ul style={{ paddingLeft: '0', listStyle: 'none' }}>
           {announcements.map((item, index) => {
