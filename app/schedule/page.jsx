@@ -2,9 +2,9 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image'; // 1. Import the Image component
+import Image from 'next/image';
 
-// Helper function to format date strings into DD-MM-YYYY format.
+// Helper function to format date strings
 function formatDate(dateString) {
   if (!dateString) return '';
   try {
@@ -31,16 +31,8 @@ export default function SchedulePage() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`${API_URL}?action=getAllNames`)
-      .then(res => res.json())
-      .then(data => setNames(data))
-      .catch(err => console.error("Error loading names:", err));
-
-    fetch(`${API_URL}?action=getFullScheduleData`)
-      .then(res => res.json())
-      .then(data => setFullSchedule(data))
-      .catch(err => console.error("Error loading full schedule:", err))
-      .finally(() => setIsLoading(false));
+    fetch(`${API_URL}?action=getAllNames`).then(res => res.json()).then(data => setNames(data)).catch(err => console.error("Error loading names:", err));
+    fetch(`${API_URL}?action=getFullScheduleData`).then(res => res.json()).then(data => setFullSchedule(data)).catch(err => console.error("Error loading full schedule:", err)).finally(() => setIsLoading(false));
   }, []);
 
   const handleMemberChange = (e) => {
@@ -51,21 +43,53 @@ export default function SchedulePage() {
 
     if (memberName) {
       setIsLoading(true);
-      fetch(`${API_URL}?action=getSchedule&name=${encodeURIComponent(memberName)}`)
-        .then(res => res.json())
-        .then(data => setSchedule(data))
-        .catch(err => console.error("Error loading schedule:", err))
-        .finally(() => setIsLoading(false));
-
-      fetch(`${API_URL}?action=getMemberDetails&name=${encodeURIComponent(memberName)}`)
-        .then(res => res.json())
-        .then(data => setMemberDetails(data))
-        .catch(err => console.error("Error loading member details:", err));
+      fetch(`${API_URL}?action=getSchedule&name=${encodeURIComponent(memberName)}`).then(res => res.json()).then(data => setSchedule(data)).catch(err => console.error("Error loading schedule:", err)).finally(() => setIsLoading(false));
+      fetch(`${API_URL}?action=getMemberDetails&name=${encodeURIComponent(memberName)}`).then(res => res.json()).then(data => setMemberDetails(data)).catch(err => console.error("Error loading member details:", err));
     }
   };
 
-  const printTable = () => { /* ... print function code remains the same ... */ };
-  const printFullSchedule = () => { /* ... print function code remains the same ... */ };
+  // --- RESTORED PRINT FUNCTIONS ---
+  const printTable = () => {
+    const tableContainer = document.getElementById('results');
+    if (!tableContainer || !tableContainer.querySelector('table')) {
+      alert('No data to print. Please search for a schedule first.');
+      return;
+    }
+    const tableContent = tableContainer.innerHTML;
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Lịch Phục Vụ Kết Quả Tìm Kiếm</title>');
+    printWindow.document.write(`<style>body{font-family:"Times New Roman",serif}h1{text-align:center;font-size:14pt;margin-bottom:10px}img{display:block;width:100%;height:auto;margin-bottom:15px}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:9pt}th,td{border:1px solid #ddd;padding:4px;text-align:left;word-wrap:break-word}th:first-child,td:first-child{width:85px}th{background-color:#f2f2f2}</style>`);
+    printWindow.document.write('</head><body>');
+    printWindow.document.write('<h1>Lịch Phục Vụ Kết Quả Tìm Kiếm</h1>');
+    printWindow.document.write(`<img src="https://i.imgur.com/aZcKXAn.png" alt="Header Image">`);
+    printWindow.document.write(tableContent);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.onload = () => {
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+    };
+  };
+
+  const printFullSchedule = () => {
+    const fullScheduleContainer = document.getElementById('fullScheduleDisplay');
+    if (!fullScheduleContainer) return;
+    const fullScheduleContent = fullScheduleContainer.innerHTML;
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Toàn Bộ Lịch Trình & Ghi Chú</title>');
+    printWindow.document.write(`<style>@page{size:auto;margin:.5cm}body{font-family:"Times New Roman",serif;margin:0}h1,h2{text-align:center}table{width:100%;border-collapse:collapse;table-layout:fixed;transform:scale(.8);transform-origin:top center}th,td{border:1px solid #ddd;padding:4px;text-align:left;word-wrap:break-word;font-size:10pt}#fullScheduleDisplay th:first-child,#fullScheduleDisplay td:first-child{width:80px}th{background-color:#f2f2f2;white-space:normal}ul{font-size:9pt}</style>`);
+    printWindow.document.write('</head><body>');
+    printWindow.document.write(fullScheduleContent);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.onload = () => {
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+    };
+  };
+  // --- END OF RESTORED FUNCTIONS ---
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -93,8 +117,7 @@ export default function SchedulePage() {
       </div>
 
       {isLoading && <div id="loading">Đang tải...</div>}
-
-      {/* 2. ADDED: Image appears after a member is selected */}
+      
       {selectedMember && !isLoading && (
         <div style={{ margin: '30px 0', textAlign: 'center' }}>
           <Image
