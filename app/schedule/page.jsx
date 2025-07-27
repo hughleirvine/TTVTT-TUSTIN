@@ -193,7 +193,7 @@ export default function SchedulePage() {
                   <br/><li><strong>(5) Dự Phòng (Reserve) cho Mình Thánh</strong> - Cần 1 thành viên để thay thế thêm cho vị trí (1) ở trên, nếu đã có người thay thế (3) mà vẫn không đủ 6 người.</li>
                   <br/><li><strong>(6) Dự Phòng (Reserve) cho Máu Thánh</strong> - Cần 1 thành viên để thay thế thêm cho vị trí (2) ở trên, nếu đã có người thay thế (4) mà vẫn không đủ 4 người.</li>
                   <br/><li><strong>(7) SUMMER TIME</strong> - Tháng Bảy - Tháng 9: Theo lịch các em Thiếu Nhi nghĩ hè. Chỉ cần một thừa tác viên phục vụ trên lầu,nên chỉ cần 5 thừa tác viên cho rước Mình Thánh Chúa thôi.</li>
-                  <br/><li><h2>CHÚ Ý:</h2> Theo đề nghị của Thầy Đông, xin quý chị khi mặc đầm "hở vai" hoặc áo dài thì nên khoác vào jacket để phục vụ.</li>
+                  <br/><li><h2>CHÚ Ý:</h2> Theo đề nghị của Thầy Đông, xin quý chị khi mặc đầm \"hở vai\" hoặc áo dài thì nên khoác vào jacket để phục vụ.</li>
                 </ul>
             </>
         )}
