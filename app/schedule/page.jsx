@@ -188,10 +188,10 @@ export default function SchedulePage() {
                   <br/><li><strong>Lịch Trình được sắp xếp theo Thứ Bảy, Thứ Sáu đầu tháng, các lễ buộc và lễ trọng .</strong></li>
                   <br/><li><strong>(1) Mình Thánh - [1-6]</strong> - Cần 6 thành viên phục vụ trong thánh lễ cho rước Mình Thánh Chúa.</li>
                   <br/><li><strong>(2) Máu Thánh - [1-4]</strong> - Cần 4 thành viên phục vụ trong thánh lễ cho rước Máu Thánh Chúa.</li>
-                  <br/><li><strong>(3) Thay Thế (Standby) cho Mình Thánh</strong> - Cần 1 thành viên để thay thế vị trí (1) ở trên, nếu không đủ 6 người.</li>
-                  <br/><li><strong>(4) Thay Thế (Standby) cho Máu Thánh</strong> - Cần 1 thành viên để thay thế vị trí (2) ở trên, nếu không đủ 4 người.</li>
-                  <br/><li><strong>(5) Dự Phòng (Reserve) cho Mình Thánh</strong> - Cần 1 thành viên để thay thế thêm cho vị trí (1) ở trên, nếu đã có người thay thế (3) mà vẫn không đủ 6 người.</li>
-                  <br/><li><strong>(6) Dự Phòng (Reserve) cho Máu Thánh</strong> - Cần 1 thành viên để thay thế thêm cho vị trí (2) ở trên, nếu đã có người thay thế (4) mà vẫn không đủ 4 người.</li>
+                  <br/><li><strong>(3) Thay Thế (Standby) cho Mình Thánh</strong> - Cần 1 thành viên để thay thế vị trí (1) ở trên, nếu không đủ 6 người. Khi vị trí của mình là “standby” thì xin quý anh chị chờ nhận text từ nhóm trưởng trước ít nhất một ngày nếu phải thay thế vị trí của người xin vắng mặt. Cho nên, khi nhận text thì nhóm trưởng cho biết vị trí thay thế.</li>
+                  <br/><li><strong>(4) Thay Thế (Standby) cho Máu Thánh</strong> - Cần 1 thành viên để thay thế vị trí (2) ở trên, nếu không đủ 4 người. Xin đọc chi tiết về thay thế ở mục 3.</li>
+                  <br/><li><strong>(5) Dự Phòng (Reserve) cho Mình Thánh</strong> - Cần 1 thành viên để thay thế thêm cho vị trí (1) ở trên, nếu đã có người thay thế (3) mà vẫn không đủ 6 người. Xin đọc chi tiết về thay thế ở mục 3.</li>
+                  <br/><li><strong>(6) Dự Phòng (Reserve) cho Máu Thánh</strong> - Cần 1 thành viên để thay thế thêm cho vị trí (2) ở trên, nếu đã có người thay thế (4) mà vẫn không đủ 4 người. Xin đọc chi tiết về thay thế ở mục 3.</li>
                   <br/><li><strong>(7) SUMMER TIME</strong> - Tháng Bảy - Tháng 9: Theo lịch các em Thiếu Nhi nghĩ hè. Chỉ cần một thừa tác viên phục vụ trên lầu,nên chỉ cần 5 thừa tác viên cho rước Mình Thánh Chúa thôi.</li>
                   <br/><li><h2>Chú Ý:</h2> Theo đề nghị của Thầy Đông, xin quý chị khi mặc đầm hở vai hoặc áo dài thì nên khoác jacket vào để phục vụ.</li>
                 </ul>
