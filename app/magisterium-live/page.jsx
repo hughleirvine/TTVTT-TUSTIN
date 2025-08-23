@@ -7,13 +7,13 @@ export const config = {
 import { getMagisteriumData } from '@/lib/magisterium-scraper';
 
 export default async function MagisteriumLivePage() {
-  // --- NEW LOGGING ADDED ---
-  console.log('[PAGE_LOG] Component rendering. About to call scraper...');
+  // --- CHANGED TO CONSOLE.ERROR FOR TESTING ---
+  console.error('[PAGE_ERROR_TEST] Component rendering. About to call scraper...');
   
   const data = await getMagisteriumData();
   
-  console.log('[PAGE_LOG] Scraper function has returned. Preparing to render JSX.');
-  // --- END OF NEW LOGGING ---
+  console.error('[PAGE_ERROR_TEST] Scraper function has returned. Preparing to render JSX.');
+  // --- END OF CHANGE ---
 
   return (
     <main className="container mx-auto max-w-4xl px-4 py-8">
