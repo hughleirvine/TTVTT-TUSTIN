@@ -1,48 +1,63 @@
 // File: app/lich-cong-giao/page.jsx
-"use client";
 
-import { useState, useEffect } from 'react';
+// This function fetches data FROM YOUR OWN API ROUTE, running on the server.
+async function getMagisteriumContent() {
+  // This URL must be the absolute URL. In production, Vercel automatically
+  // sets the VERCEL_URL environment variable.
+  const baseUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000';
+  
+  // We fetch from the API route we created earlier.
+  const apiUrl = `${baseUrl}/api/magisterium`;
 
-export default function CalendarPage() {
-  const [calendarHtml, setCalendarHtml] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
+  try {
+    // Revalidate this data every hour (3600 seconds) to get fresh content
+    // without rebuilding the entire site.
+    const response = await fetch(apiUrl, { next: { revalidate: 3600 } });
 
-  useEffect(() => {
-    fetch('/api/get-calendar')
-      .then(res => {
-        if (!res.ok) {
-          throw new Error("Could not load the calendar data from the server.");
-        }
-        return res.json();
-      })
-      .then(data => {
-        if (data.html) {
-          setCalendarHtml(data.html);
-        } else {
-          setError(data.error || "Calendar content is empty.");
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        setError(err.message);
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+    if (!response.ok) {
+      // If the API returns an error, we'll catch it here.
+      throw new Error(`API responded with status: ${response.status}`);
+    }
+    
+    // Parse the JSON response from our API route.
+    return response.json();
+
+  } catch (error) {
+    console.error("Failed to fetch Magisterium content:", error);
+    // Return an error object that the page component can display.
+    return { error: 'Không thể tải nội dung Lịch Phụng Vụ. Vui lòng thử lại sau.' };
+  }
+}
+
+// This is now an async Server Component.
+export default async function LichCongGiaoPage() {
+  // We call the fetch function directly when the page is being rendered on the server.
+  const data = await getMagisteriumContent();
 
   return (
-    <main>
-      {isLoading && (
-        <div className="lcgtg">
-          <h2>Đang tải Lịch Công Giáo Tuần Này...</h2>
+    <main className="container mx-auto max-w-4xl px-4 py-8">
+      <h1 className="text-4xl font-bold text-center mb-8 text-white">
+        Lịch Phụng Vụ Hàng Tuần
+      </h1>
+
+      {data.error ? (
+        // If there was an error, display a friendly message.
+        <div className="text-center text-red-400 bg-red-900/20 p-4 rounded-lg">
+          <p className="font-semibold">Đã xảy ra lỗi</p>
+          <p>{data.error}</p>
         </div>
-      )}
-
-      {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
-
-      {/* This div will render the fetched HTML content */}
-      {calendarHtml && (
-        <div className="lcgtg" dangerouslySetInnerHTML={{ __html: calendarHtml }} />
+      ) : (
+        // If data was fetched successfully, render it.
+        // The `prose` classes from Tailwind Typography style the raw HTML nicely.
+        <article
+          className="prose prose-invert lg:prose-xl max-w-none bg-gray-800/50 p-6 sm:p-8 rounded-lg shadow-lg"
+          
+          // WARNING: This is necessary to render HTML from an external source.
+          // Only use this if you trust the content you are displaying.
+          dangerouslySetInnerHTML={{ __html: data.content }}
+        />
       )}
     </main>
   );
