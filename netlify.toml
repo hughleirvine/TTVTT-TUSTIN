@@ -1,4 +1,17 @@
-[build]
-  publish = ".next"
-  command = "npm run build"
+# This plugin is essential for correctly deploying Next.js sites on Netlify.
+# It automatically handles the build command, publish directory, and function generation.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# This section sets a longer timeout for all server-side functions (API routes, etc.).
+# This is useful for potentially slow operations like the web scraper.
+[functions]
+  timeout = 25
+
+# It's highly recommended to specify the Node.js version to ensure consistency
+# between your local environment and Netlify's build servers.
+[build.environment]
+  NODE_VERSION = "20"
+
+
   
