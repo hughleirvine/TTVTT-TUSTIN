@@ -58,7 +58,7 @@ export default async function HomePage() {
           </a>
           
            {/* MODIFIED: Changed from "Lịch Công Giáo" to use the content from Magisterium */}
-          <Link href="https://teresahd.voichua.com/lich-cong-giao" className="quick-action-card">
+          <Link href="/lich-cong-giao" className="quick-action-card">
             <Image src="/calendar-icon.png" alt="Calendar Icon" width={80} height={80} className="mx-auto mb-4" />
             <h2 className="text-2xl font-semibold text-white">Lịch Phụng Vụ</h2>
             <p className="mt-2 text-gray-400">Tra cứu lịch phụng vụ từ Magisterium.</p>
