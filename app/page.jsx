@@ -1,5 +1,7 @@
+// File: app/page.jsx
+
 import Link from 'next/link';
-import Image from 'next/image'; // Import the Image component
+import Image from 'next/image';
 
 // This function fetches the latest announcement from your Google Script API
 async function getLatestAnnouncement() {
@@ -7,12 +9,21 @@ async function getLatestAnnouncement() {
   
   try {
     const response = await fetch(`${API_URL}?action=getAnnouncements`, { next: { revalidate: 300 } });
+    
+    // --- START OF CHANGE ---
+    // If the response is not ok, log the error and return null instead of throwing an error.
+    // This prevents the entire build from failing.
     if (!response.ok) {
-      throw new Error('Failed to fetch announcement');
+      console.error(`Failed to fetch announcement: Status ${response.status}`);
+      return null;
     }
+    // --- END OF CHANGE ---
+
     const data = await response.json();
     return data.announcements && data.announcements.length > 0 ? data.announcements[0] : null;
+
   } catch (error) {
+    // This block catches network errors (e.g., the server is down) and also prevents the build from failing.
     console.error("Failed to fetch announcement:", error);
     return null;
   }
@@ -33,7 +44,6 @@ export default async function HomePage() {
 
       {/* 2. Quick Actions Section */}
       <section>
-        {/* Updated grid to handle 4 items responsively */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
           
           {/* Schedule Card */}
@@ -52,22 +62,23 @@ export default async function HomePage() {
 
           {/* Bulletin Card */}
           <a href="/bulletins" target="_blank" rel="noopener noreferrer" className="quick-action-card">
-             <Image src="/bulletin-icon.png" alt="Bulletin Icon" width={80} height={80} className="mx-auto mb-4" />
+              <Image src="/bulletin-icon.png" alt="Bulletin Icon" width={80} height={80} className="mx-auto mb-4" />
             <h2 className="text-2xl font-semibold text-white">Hiệp Thông Hàng Tuần</h2>
             <p className="mt-2 text-gray-400">Tải về các bản tin Hiệp Thông mới nhất.</p>
           </a>
           
-           {/* MODIFIED: Changed from "Lịch Công Giáo" to use the content from Magisterium */}
+          {/* Calendar Card */}
           <Link href="/lich-cong-giao" className="quick-action-card">
-            <Image src="/calendar-icon.png" alt="Calendar Icon" width={80} height={80} className="mx-auto mb-4" />
-            <h2 className="text-2xl font-semibold text-white">Lịch Phụng Vụ</h2>
-            <p className="mt-2 text-gray-400">Tra cứu lịch phụng vụ từ Magisterium.</p>
+            <Image src="/calendar-icon.png" alt="Lịch Công Giáo Icon" width={80} height={80} className="mx-auto mb-4" />
+            <h2 className="text-2xl font-semibold text-white">Lịch Công Giáo</h2>
+            <p className="mt-2 text-gray-400">Xem lịch phụng vụ cho các tuần sắp tới.</p>
           </Link>
 
         </div>
       </section>
 
       {/* 3. Recent Announcement Section */}
+      {/* This section will now only show up if 'latestAnnouncement' is successfully fetched */}
       {latestAnnouncement && (
         <section>
           <h2 className="text-3xl font-bold text-center mb-6 text-white">Thông Báo Gần Đây</h2>
