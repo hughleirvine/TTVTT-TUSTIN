@@ -1,5 +1,12 @@
 // File: app/magisterium-live/page.jsx
 
+// ADD THIS CONFIG OBJECT AT THE VERY TOP
+export const config = {
+  // This tells Netlify to give this specific page's function a 25-second timeout.
+  // This is the new, recommended way to set timeouts.
+  maxDuration: 25, 
+};
+
 import { getMagisteriumData } from '@/lib/magisterium-scraper';
 
 // This is a Server Component that will attempt the live scrape

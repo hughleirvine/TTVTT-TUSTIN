@@ -1,9 +1,5 @@
-# This is the essential plugin for deploying Next.js sites on Netlify.
-# It handles all build commands and configurations automatically.
+# This is the only configuration needed in this file.
+# The official Next.js plugin will handle everything else automatically.
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-# This section sets a longer timeout for ALL server-side functions.
-# This is now necessary for the Puppeteer scraper to have enough time to run.
-[functions]
-  timeout = 25
+  
