@@ -2,6 +2,5 @@
   publish = ".next"
   command = "npm run build"
 [functions]
-  directory = "netlify/functions"
   # Increase the timeout to 25 seconds for all functions
   timeout = 25
