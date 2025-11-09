@@ -1,4 +1,4 @@
-// File: app/lich-cong-giao/page.jsx
+// File: app/lich-cong-giao/page.jsx Change line 11 fetch('/api/get-calendar')
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -9,7 +9,7 @@ export default function CalendarPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('/api/get-calendar')
+    fetch(`/api/get-calendar?cachebust=${Date.now()}`)
       .then(res => {
         if (!res.ok) {
           throw new Error("Could not load the calendar data from the server.");
