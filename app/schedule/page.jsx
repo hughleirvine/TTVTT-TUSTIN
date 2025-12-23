@@ -61,7 +61,7 @@ export default function SchedulePage() {
     printWindow.document.write(`<style>body{font-family:"Times New Roman",serif}h1{text-align:center;font-size:14pt;margin-bottom:10px}img{display:block;width:100%;height:auto;margin-bottom:15px}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:9pt}th,td{border:1px solid #ddd;padding:4px;text-align:left;word-wrap:break-word}th:first-child,td:first-child{width:85px}th{background-color:#f2f2f2}</style>`);
     printWindow.document.write('</head><body>');
     printWindow.document.write('<h1>Lịch Phục Vụ Kết Quả Tìm Kiếm</h1>');
-    printWindow.document.write(`<img src="https://imgur.com/a/iDrTlwp" alt="Header Image">`);
+    printWindow.document.write(`<img src="https://imgur.com/aZcKXAn" alt="Header Image">`);
     printWindow.document.write(tableContent);
     printWindow.document.write('</body></html>');
     printWindow.document.close();
