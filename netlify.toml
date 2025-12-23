@@ -1,5 +1,7 @@
 # This is the only configuration needed in this file.
 # The official Next.js plugin will handle everything else automatically.
+[build.environment]
+  NPM_FLAGS = "--legacy-peer-deps"
 [[plugins]]
   package = "@netlify/plugin-nextjs"
   
